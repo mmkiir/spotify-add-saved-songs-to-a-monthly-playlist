@@ -465,11 +465,16 @@ func main() {
 		log.Fatalln(err)
 	}
 
+	reverseTracks := make([]interface{}, len(tracks))
+	for i, j := 0, len(tracks)-1; i < j; i, j = i+1, j-1 {
+		reverseTracks[i], reverseTracks[j] = tracks[j], tracks[i]
+	}
+
 	// Map to keep track of created/target playlists for each month
 	playlistMap := make(map[string]string)
 	tracksByMonth := make(map[string][]string)
 
-	for _, track := range tracks {
+	for _, track := range reverseTracks {
 		trackMap, ok := track.(map[string]interface{})
 		if !ok {
 			log.Fatalf("unexpected type for track: %T", track)
